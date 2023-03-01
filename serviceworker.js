@@ -38,9 +38,11 @@ self.addEventListener("install", function (event) {
 
   var filesToCache = ["/index.html"];
  
-  var preLoad = async function () {
-    const cache = await caches.open("offline");
-    return await cache.addAll(filesToCache);
+  var preLoad = function () {
+    return caches.open("offline").then(function (cache) {
+      // caching index and important routes
+      return cache.addAll(filesToCache);
+    });
   };
  
   var checkResponse = function (request) {
@@ -55,10 +57,12 @@ self.addEventListener("install", function (event) {
     });
   };
  
-  var addToCache = async function (request) {
-    const cache = await caches.open("offline");
-    const response = await fetch(request);
-    return await cache.put(request, response);
+  var addToCache = function (request) {
+    return caches.open("offline").then(function (cache) {
+      return fetch(request).then(function (response) {
+        return cache.put(request, response);
+      });
+    });
   };
  
   var returnFromCache = async function (request) {
