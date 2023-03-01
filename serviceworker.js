@@ -38,11 +38,9 @@ self.addEventListener("install", function (event) {
 
   var filesToCache = ["/index.html"];
  
-  var preLoad = function () {
-    return caches.open("offline").then(function (cache) {
-      // caching index and important routes
-      return cache.addAll(filesToCache);
-    });
+  var preLoad = async function () {
+    const cache = await caches.open("offline");
+    return await cache.addAll(filesToCache);
   };
  
   var checkResponse = function (request) {
@@ -57,22 +55,18 @@ self.addEventListener("install", function (event) {
     });
   };
  
-  var addToCache = function (request) {
-    return caches.open("offline").then(function (cache) {
-      return fetch(request).then(function (response) {
-        return cache.put(request, response);
-      });
-    });
+  var addToCache = async function (request) {
+    const cache = await caches.open("offline");
+    const response = await fetch(request);
+    return await cache.put(request, response);
   };
  
-  var returnFromCache = function (request) {
-    return caches.open("offline").then(function (cache) {
-      return cache.match(request).then(function (matching) {
-        if (!matching || matching.status == 404) {
-          return cache.match("offline.html");
-        } else {
-          return matching;
-        }
-      });
-    });
+  var returnFromCache = async function (request) {
+    const cache = await caches.open("offline");
+    const matching = await cache.match(request);
+    if (!matching || matching.status == 404) {
+      return cache.match("offline.html");
+    } else {
+      return matching;
+    }
   };
