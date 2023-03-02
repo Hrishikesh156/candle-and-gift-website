@@ -4,6 +4,7 @@
     "short_name": "Candles App",
     "start_url": "index.html",
     "scope": "./",
+    "id":"/candle-and-gift-website/index.html",
     "icons": [
         {
           "src": "icons/icon48.png",
@@ -21,9 +22,10 @@
             "type": "image/png"
           },
           {
-            "src": "icons/icon497.png",
+            "src": "icons/maskable_icon.png",
             "sizes": "497x497",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose":"any maskable"
           }
       ],
       "theme_color": "#ffd31d",

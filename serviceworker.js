@@ -65,9 +65,9 @@ self.addEventListener("install", function (event) {
     });
   };
  
-  var returnFromCache = async function (request) {
-    const cache = await caches.open("offline");
-    const matching = await cache.match(request);
+  var returnFromCache = function (request) {
+    const cache =  caches.open("offline");
+    const matching =  cache.match(request);
     if (!matching || matching.status == 404) {
       return cache.match("offline.html");
     } else {
